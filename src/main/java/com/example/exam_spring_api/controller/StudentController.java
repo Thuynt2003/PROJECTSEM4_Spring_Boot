@@ -1,16 +1,20 @@
 package com.example.exam_spring_api.controller;
 
 
-import com.example.exam_EAD_sem4.dto.RequestStudentScore;
-import com.example.exam_EAD_sem4.entity.Student_score_t;
-import com.example.exam_EAD_sem4.entity.Student_t;
-import com.example.exam_EAD_sem4.entity.Subject_t;
-import com.example.exam_EAD_sem4.repository.IStudentRepo;
-import com.example.exam_EAD_sem4.repository.IStudent_scoreRepo;
-import com.example.exam_EAD_sem4.repository.ISubjectRepo;
+import com.example.exam_spring_api.dto.RequestStudentScore;
+import com.example.exam_spring_api.entity.Score;
+import com.example.exam_spring_api.entity.Student;
+import com.example.exam_spring_api.entity.Subject;
+import com.example.exam_spring_api.repository.IStudentRepo;
+import com.example.exam_spring_api.repository.IStudent_scoreRepo;
+import com.example.exam_spring_api.repository.ISubjectRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.Optional;
 
@@ -40,8 +44,8 @@ public class StudentController {
     }
 
     @PostMapping("/post/student")
-    private ResponseEntity<?> addStudent(@RequestBody Student_t studentT){
-        Student_t s = new Student_t();
+    private ResponseEntity<?> addStudent(@RequestBody Student studentT){
+        Student s = new Student();
         s.setStudent_code( studentT.getStudent_code() );
         s.setFull_name( studentT.getFull_name() );
         s.setAddress( studentT.getAddress() );
@@ -51,8 +55,8 @@ public class StudentController {
 
 
     @PostMapping("/post/subject")
-    private ResponseEntity<?> addSubject(@RequestBody Subject_t subjectT){
-        Subject_t s = new Subject_t();
+    private ResponseEntity<?> addSubject(@RequestBody Subject subjectT){
+        Subject s = new Subject();
         s.setSubject_name( subjectT.getSubject_name() );
         s.setCredit( subjectT.getCredit() );
         s.setSubject_code( subjectT.getSubject_code() );
@@ -62,9 +66,9 @@ public class StudentController {
 
     @PostMapping("/post/score")
     private ResponseEntity<?> addScore(@RequestBody RequestStudentScore score){
-        Student_score_t s = new Student_score_t();
-        Optional<Student_t> student = _iStudentRepo.findById( score.getStudent() );
-      Optional<Subject_t> subject = _iSubjectRepo.findById( score.getSubject() );
+        Score s = new Score();
+        Optional<Student> student = _iStudentRepo.findById( score.getStudent() );
+      Optional<Subject> subject = _iSubjectRepo.findById( score.getSubject() );
 
       double result = score( score.getScore1(),  score.getScore2());
         String Grade_result = null;
